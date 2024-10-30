@@ -5,7 +5,7 @@ import jakarta.persistence.*;
 import java.util.Date;
 
 @Entity
-public class Panier {
+public class PanierDetail {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -19,9 +19,23 @@ public class Panier {
     @Column
     private Date updatedAt;
 
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinColumn(name = "product_id", nullable=true)
+    private Product product;
 
+    public PanierDetail() {
+    }
 
-    public Panier() {
+    @PrePersist
+    protected void onCreate() {
+        Date now = new Date();
+        this.createdAt = now;
+        this.updatedAt = now;
+    }
+
+    @PreUpdate
+    protected void onUpdate() {
+        this.updatedAt = new Date();
     }
 
     public Long getId() {
@@ -56,5 +70,11 @@ public class Panier {
         this.updatedAt = updatedAt;
     }
 
+    public Product getProduct() {
+        return product;
+    }
 
+    public void setProduct(Product product) {
+        this.product = product;
+    }
 }

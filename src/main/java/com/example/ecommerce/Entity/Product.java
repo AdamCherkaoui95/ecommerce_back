@@ -52,6 +52,18 @@ public class Product {
     public Product() {
     }
 
+    @PrePersist
+    protected void onCreate() {
+        Date now = new Date();
+        this.createdAt = now;
+        this.updatedAt = now;
+    }
+
+    @PreUpdate
+    protected void onUpdate() {
+        this.updatedAt = new Date();
+    }
+
     public Long getId() {
         return id;
     }

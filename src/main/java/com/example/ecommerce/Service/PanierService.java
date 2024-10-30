@@ -1,12 +1,13 @@
 package com.example.ecommerce.Service;
 
-import com.example.ecommerce.Entity.Panier;
+import com.example.ecommerce.Entity.PanierDetail;
 import com.example.ecommerce.Repo.PanierRepo;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.text.ParseException;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -21,12 +22,13 @@ public class PanierService {
     }
 
 
-    public Panier save(Panier panier) throws ParseException {
-        Panier panier1 =panierRepo.save(panier);
-        return panier1;
+    public PanierDetail save(PanierDetail panierDetail) throws ParseException {
+        if (panierDetail.getId() == 0)
+            panierDetail.setId(null);
+        return panierRepo.save(panierDetail);
     }
 
-    public List<Panier> findAll() {
+    public List<PanierDetail> findAll() {
         return panierRepo.findAll();
     }
 

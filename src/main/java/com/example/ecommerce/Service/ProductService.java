@@ -4,12 +4,12 @@ import com.example.ecommerce.Entity.Product;
 import com.example.ecommerce.Repo.ProductRepo;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
+import java.util.Optional;
 
 @Service
 @Transactional
@@ -24,20 +24,18 @@ public class ProductService {
 
 
     public Product save(Product product) throws ParseException {
-        Date date = new Date();
-        SimpleDateFormat DateFor = new SimpleDateFormat("MM-dd-yyyy");
-        Date date1 = DateFor.parse(DateFor.format(date));
-        product.setCreatedAt(date1);
-        product.setUpdatedAt(date1);
         if (product.getId() == 0) {
             product.setId(null);
         }
         Product product1 =productRepo.save(product);
         return product1;
     }
+    public Page<Product> findAll(int page, int size) {
+        return productRepo.findAll(PageRequest.of(page, size));
+    }
 
-    public List<Product> findAll() {
-        return productRepo.findAll();
+    public Optional<Product> findById(Long id) {
+        return productRepo.findById(id);
     }
 
 
